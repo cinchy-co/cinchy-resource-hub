@@ -1,0 +1,49 @@
+<p-progressSpinner class="item-center-n-relative"
+                   *ngIf="!pageDetails">
+</p-progressSpinner>
+
+<div class="default-border" *ngIf="mappedPageDetails">
+  <h1 class="p-4 page-header text-center" [innerHTML]="mappedPageDetails[0].page"></h1>
+  <div class="p-4 pl-8" *ngFor="let page of mappedPageDetails">
+    <h2 class="whitespace-pre-wrap font-semibold header-dca mt-2 mb-4" [innerHTML]="page.sectionName"></h2>
+
+    <!--VIDEO-->
+    <div *ngIf="page.video" class="w-[100%] m-auto">
+      <div class="m-auto" id="player">
+        <iframe
+          class="m-auto w-[100%] sm:w-[100%] md:w-[70%] lg:w-[60%] lg:h-[400px] md:h-[300px] sm:h-[200px] h-[200px]"
+          title="Node Zero video"
+          loading="lazy"
+          [src]="page.video | urlSanitizer: 'resourceUrl'"
+          allowfullscreen
+          allowtransparency
+          allow="autoplay"
+        ></iframe>
+      </div>
+    </div>
+
+    <p class="whitespace-pre-wrap" [innerHTML]="page.details"></p>
+
+
+    <img class="mt-4 max-w-[850px]" *ngIf="page.image" [src]="page.image" alt="page details">
+
+    <!--Table Query-->
+    <div class="w-[100%] mt-4" *ngIf="page.tableDetails">
+      <p-table [value]="page.tableDetails">
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let col of getCols(page.tableDetails[0])" [innerHTML]="col">
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-tableRow>
+          <tr>
+            <td *ngFor="let col of getCols(page.tableDetails[0])" [innerHTML]="tableRow[col]">
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <p-divider></p-divider>
+  </div>
+</div>

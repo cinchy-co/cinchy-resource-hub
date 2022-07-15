@@ -1,0 +1,362 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+// @import '~ngx-sharebuttons/themes/default';
+
+// Swapping fonts till the actual fonts are loaded
+@font-face {
+  font-family: 'Pacifico';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Pacifico Regular'), local('Pacifico-Regular'), url(https://fonts.gstatic.com/s/pacifico/v12/FwZY7-Qmy14u9lezJ-6H6MmBp0u-.woff2) format('woff2');
+  font-display: swap;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+app-header {
+  z-index: 999999;
+}
+
+app-home {
+  z-index: 99999;
+}
+
+app-home, app-pipps, app-key-issues, app-news-podcast {
+  flex: 1 0 auto;
+}
+
+app-pipps {
+  min-height: 90vh;
+}
+
+app-footer {
+  flex-shrink: 0;
+  z-index: 9999;
+}
+
+.item-center-n-relative {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.default-border {
+  border: 1px solid rgb(222, 223, 224);
+}
+
+.responsive-image-container {
+  overflow: hidden;
+  padding-bottom: 36.25%;
+  position: relative;
+  padding-right: 5px;
+  cursor: pointer;
+  background: black;
+
+  .responsive-image {
+    left: 0;
+    top: 0;
+    height: auto;
+    width: 100%;
+    position: absolute;
+  }
+}
+
+.text-sm-12 {
+  font-size: 0.83rem;
+}
+
+.show-in-small {
+  display: block;
+
+  @media (min-width: 992px) {
+    display: none;
+  }
+}
+
+.show-in-medium-large {
+  display: none;
+
+  @media (min-width: 992px) {
+    display: block;
+  }
+}
+
+.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: not-allowed;
+  background-color: gray;
+}
+
+// CINCHY TABLE CLASSES
+
+.link-color {
+  color: #0EA5E9 !important;
+  text-decoration: underline !important;
+  // font-weight: 500 !important;
+}
+
+.bold-text {
+  font-weight: 600 !important;
+}
+
+.page-header {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.header-dca {
+  font-size: 24px;
+  font-weight: 600 !important;
+}
+
+.sub-header-dca {
+  font-size: 20px !important;
+  font-weight: 600 !important;
+}
+
+ul.bullet {
+  margin-left: 25px;
+  list-style-type: bullet;
+  display: flex;
+  flex-direction: column;
+}
+
+ul.disc {
+  margin-left: 25px;
+  list-style-type: disc;
+  display: flex;
+  flex-direction: column;
+}
+
+ul.square {
+  margin-left: 25px;
+  list-style-type: square;
+  display: flex;
+  flex-direction: column;
+}
+
+// Override styles
+p-autocomplete, .p-autocomplete {
+  width: 100%;
+}
+
+.inherit-width {
+  .p-autocomplete {
+    width: 25vw;
+
+    @media (max-width: 697px) {
+      width: 80vw;
+      margin-top: 10px;
+    }
+  }
+}
+
+.p-card-body, .p-card-content {
+  padding: 0 !important;
+  margin: 0;
+}
+
+.p-card {
+  height: 100%;
+}
+
+app-avatars {
+  .p-avatar.p-avatar-xl {
+    width: 6rem !important;
+    height: 6rem !important;
+    font-size: 2rem;
+  }
+}
+
+p-button.btn-color {
+  .p-button {
+    background-color: #4A0CDA;
+    border: #4A0CDA;
+    color: rgb(14 163 228);
+
+    &:enabled:hover {
+      background-color: #4A0CDA;
+      opacity: 0.8;
+      color: white;
+    }
+  }
+
+  &-text {
+    background-color: rgb(14 163 228);
+    border: #4A0CDA;
+    color: rgb(14 163 228);
+  }
+
+  &-green {
+    .p-button {
+      background-color: #00b529;
+      border: #00b529;
+
+      &:enabled:hover {
+        background-color: #00b529;
+        opacity: 0.8;
+        color: white;
+      }
+    }
+  }
+}
+
+.p-accordion-toggle-icon {
+  color: #164f63;
+}
+
+.p-carousel-items-container {
+  height: 100%;
+}
+
+.p-carousel-content {
+  background: #111827;
+}
+
+.p-chip .p-chip-text {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.pipps-container, .key-issues-container {
+  .p-sidebar .p-sidebar-header + .p-sidebar-content {
+    transition: all 0.5s ease;
+    padding-top: 20px;
+    //  padding-bottom: 150px;
+  }
+
+  .p-sidebar, p-sidebar {
+    position: sticky;
+    height: 100vh;
+    overflow: auto;
+  }
+
+  &.pd-top-scroll {
+    transition: all 0.5s ease;
+
+    .p-sidebar .p-sidebar-header + .p-sidebar-content {
+      // padding-top: 185px;
+    }
+  }
+
+  p-panel {
+    .p-panel .p-panel-header {
+      border: 0.5px solid #dee2e6;
+      border-left: 0;
+      border-right: 0;
+      background: white;
+    }
+
+    .p-panel-content {
+      padding-top: 5px;
+    }
+
+    .pi {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+app-avatars {
+  .p-avatar.p-avatar-lg {
+    width: 7rem;
+    height: 7rem;
+    font-size: 1.5rem;
+
+    @media (max-width: 992px) {
+      width: 5rem;
+      height: 5rem;
+    }
+  }
+}
+
+app-footer {
+  fa-icon {
+    font-size: 28px;
+  }
+}
+
+.pipps-container {
+  .p-dropdown {
+    width: 98%;
+  }
+}
+
+.pipps-container {
+  .p-sidebar.p-sidebar-active {
+    z-index: 1102 !important;
+  }
+}
+
+.tag-selected {
+  .p-chip {
+    --tw-bg-opacity: 1;
+    background-color: rgb(14 165 233 / var(--tw-bg-opacity));
+    color: white;
+  }
+}
+
+.suggestions-container {
+  .p-dropdown, .p-multiselect {
+    width: 100%;
+  }
+}
+
+.p-overlaypanel-content {
+  .p-chip {
+    background-color: white !important;
+    border: 1px solid #dee2e6;
+  }
+}
+
+.p-chip {
+  background-color: white !important;
+  border: 1px solid #dee2e6;
+}
+
+.selected-chip {
+  .p-chip {
+    background-color: #dee2e6 !important;
+    border: 1px solid whitesmoke;
+  }
+}
+
+
+.p-autocomplete .p-autocomplete-panel {
+  max-width: 500px !important;
+}

@@ -1,0 +1,16 @@
+<p-progressSpinner class="item-center-n-relative"
+                   *ngIf="!loginDone">
+</p-progressSpinner>
+
+<div class="page-wrapper" *ngIf="loginDone">
+  <app-hub-sidebar (toggleSidebarClicked)="sidebarStateChange($event)"></app-hub-sidebar>
+
+  <app-profile *ngIf="userDetails" [userDetails]="userDetails"></app-profile>
+  <div class="p-[20px] pt-[100px] lg:p-[100px] hub-content"
+       [ngStyle]="{'margin-left': !isSidebarExpanded ? '50px' : '220px',
+       'display': isSidebarExpanded && isMobileOrTab ? 'none': 'block'}">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
+<p-toast position="top-right" [baseZIndex]="5000"></p-toast>

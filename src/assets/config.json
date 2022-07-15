@@ -1,0 +1,7 @@
+{
+  "authority": "https://cinchy.net/cinchysso",
+  "cinchyRootUrl": "https://cinchy.net/Cinchy",
+  "clientId": "marketing-hub",
+  "redirectUri": "https://localhost:3100",
+  "version": "1.0.0"
+}

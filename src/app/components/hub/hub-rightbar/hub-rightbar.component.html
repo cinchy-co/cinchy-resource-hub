@@ -1,0 +1,36 @@
+<div class="right-bar">
+
+  <div class="flex p-4 justify-between cursor-pointer" *ngIf="userDetails" (click)="goToProfile()">
+    <div class="flex flex-col">
+      <span>{{userDetails.name}}</span>
+      <span class="text-sm-12 text-gray-400">Joined on {{userDetails.joinedDate | date}}</span>
+    </div>
+
+    <!--<div>
+      <img class="w-[50px] h-[50px] cursor-pointer block" [src]="'data:image/png;base64,' + userDetails.photo"
+           alt="profile">
+    </div>-->
+  </div>
+
+  <hr>
+
+  <div class="flex flex-col p-4">
+    <div class="flex flex-col justify-end mb-5">
+      <span>© Data Collaboration Alliance 2022</span>
+    </div>
+
+    <div>
+      <ul class="flex flex-col gap-2">
+        <li class="font-semibold cursor-pointer" *ngFor="let footer of footerDetails"
+            (click)="footerClicked(footer)">{{footer.footerTitle}}</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr>
+  <div class="p-2 pl-4 pt-4 pr-4 basis-[40%] flex flex-row gap-5 items-start justify-start">
+    <div class="cursor-pointer" *ngFor="let media of socialMediaDetails" (click)="socialMediaClicked(media)">
+      <i class="pi" [ngClass]="media.socialIcon" style="font-size: 1.5rem"></i>
+    </div>
+  </div>
+</div>

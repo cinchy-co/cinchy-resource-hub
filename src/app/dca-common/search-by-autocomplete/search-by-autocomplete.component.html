@@ -1,0 +1,46 @@
+<div class="w-full flex flex-col sm:flex-col md:flex-col lg:flex-row gap-3">
+  <div class="flex basis-[100%] flex-col md:flex-row lg:flex-row gap-1 relative" *ngIf="!hideSearchByOptions">
+    <p-selectButton [options]="searchByOptions" [(ngModel)]="selectedSearchBy" optionLabel="name"
+                    (onOptionClick)="searchByClicked($event)">
+    </p-selectButton>
+
+    <div class="flex flex-row gap-1 items-center" [@fadeSlideInOut] *ngIf="showRegion && dropdownOptionStr">
+      <p-selectButton [options]="regionSearchBy" [(ngModel)]="selectedRegionSearchBy" optionLabel="name"
+                      (onOptionClick)="searchByClicked($event)">
+      </p-selectButton>
+      <span *ngIf="countrySelected" class="text-sm-12 text-slate-500">
+           ({{countrySelected}})
+        </span>
+    </div>
+  </div>
+
+  <label *ngIf="label" class="text-slate-600">{{label}}</label>
+
+  <div *ngIf="selectedSearchBy?.code && autoCompleteOptions?.length" [@fadeSlideInOut]
+       class="flex-row gap-3 lg:mt-0 flex items-start">
+    <p-autoComplete
+      [(ngModel)]="autoSearchVal" [suggestions]="filteredAutoCompleteOptions"
+      (completeMethod)="filterAutoCompleteOptions($event)" [field]="selectedOption.code"
+      (onSelect)="itemSelected($event)"
+      (onClear)="reset()"
+      (onKeyUp)="search($event)"
+      [dropdown]="true"
+      type="search"
+      [placeholder]="placeholderOverride ? placeholderOverride : 'Search by' + ' ' + placeholderForSearch">
+    </p-autoComplete>
+
+    <div class="mt-[10px] sm:mt-[0px] md:mt-[0px] lg:mt-[0px]" *ngIf="showSearchButton">
+      <div class="hidden sm:block md:block lg:block">
+        <button class="w-[100%]" pButton type="button" icon="pi pi-search" iconPos="right" label="Search"
+                (click)="search($event, true)">
+        </button>
+      </div>
+
+      <div class="block sm:hidden lg:hidden md:hidden">
+        <button class="w-[100%]" pButton type="button" icon="pi pi-search" iconPos="right" label=""
+                (click)="search($event, true)">
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

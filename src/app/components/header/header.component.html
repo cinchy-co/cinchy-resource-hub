@@ -1,0 +1,28 @@
+<section class="dca-header fixed w-full">
+  <div class="relative">
+    <div class="pl-5 dca-header--container flex flex-row justify-between items-center">
+      <img class="w-[180px] h-[40px] cursor-pointer block md:block lg:block" src="assets/nodeLogo.png" alt="banner" (click)="goToHome()">
+      <div class="pr-5 flex flex-row gap-2 items-center">
+        <div class="">
+<!--
+          <button pButton icon="pi pi-users" iconPos="right" class="btn-color-text p-button-text mr-2" label="JOIN FREE" (click)="joinFree()"></button>
+-->
+          <h1 class="underline text-sky-500 mr-3" (click)="joinFree()">JOIN FREE</h1>
+        </div>
+
+       <!-- <div class="block sm:hidden lg:hidden md:hidden">
+          <button pButton icon="pi pi-users" iconPos="right" class="btn-color-text  p-button-text mr-2" label="" (click)="joinFree()"></button>
+        </div>-->
+
+        <div class="hidden sm:block md:block lg:block">
+          <p-button icon="pi pi-sign-in" iconPos="right" class="btn-color-green p-button-raised" label="LOGIN" (click)="login()"></p-button>
+        </div>
+
+        <div class="block sm:hidden lg:hidden md:hidden">
+          <p-button icon="pi pi-sign-in" iconPos="right" class="btn-color-green p-button-raised" label="" (click)="login()"></p-button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
