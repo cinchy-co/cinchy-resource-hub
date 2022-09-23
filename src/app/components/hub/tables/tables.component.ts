@@ -21,7 +21,7 @@ export class TablesComponent implements OnInit {
 
   async ngOnInit() {
     const communityDetails = this.appStateService.communityDetails;
-    this.toolsHeaderDetails = communityDetails.find(item => item.id === 'tables') as ICommunityDetails;
+    this.toolsHeaderDetails = communityDetails.find(item => item.id === 'apps') as ICommunityDetails;
     this.tables = await this.appApiService.getHubTables().toPromise();
   }
 

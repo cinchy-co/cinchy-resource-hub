@@ -30,6 +30,22 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getHubMessages(hubId: string): Observable<any> {
+    const url = `/API/Marketing/Get%20Hub%20Messages?%40hubId=${hubId}`;
+    return this.getResponse(url);
+  }
+
+  getHubCommentsPerMessage(msgId: string): Observable<any> {
+    const url = `/API/Marketing/Get%20Message%20Comments?%40parentId=${msgId}`;
+    return this.getResponse(url);
+  }
+
+  deleteMessage(messageId: string) {
+    const url = `/API/Node%20Zero%20Website/Delete%20Message?%40msgId=${messageId}`;
+    return this.getResponse(url);
+  }
+
+
   getLegislation(): Observable<any> {
     const url = '/API/Collaborative%20Privacy/Get%20Privacy%20Legislation%20Grid'
     if (this.cachedLaws) {
@@ -39,27 +55,6 @@ export class ApiCallsService {
         tap(resp => this.cachedLaws = resp)
       );
     }
-  }
-
-  getDataStewards(): Observable<any> {
-    const url = '/API/Collaborative%20Privacy/Get%20Data%20Stewards';
-    return this.getResponse(url);
-  }
-
-  getPrivacyRegulators(): Observable<any> {
-    const url = '/API/Collaborative%20Privacy/Get%20Privacy%20Regulators';
-    if (this.cachedRegulators) {
-      return of(this.cachedRegulators);
-    } else {
-      return this.getResponse(url).pipe(
-        tap(resp => this.cachedRegulators = resp)
-      );
-    }
-  }
-
-  getNewsFeedAndPodcasts(): Observable<any> {
-    const url = '/API/Collaborative%20Privacy/Get%20News%20and%20Podcasts';
-    return this.getResponse(url);
   }
 
   getTags(): Observable<any> {
@@ -182,7 +177,7 @@ export class ApiCallsService {
   }
 
   getHubTables(): Observable<any> {
-    const url = `/API/Marketing/Get%20Table%20Page%20Tables`;
+    const url = `/API/Marketing/Get%20Hub%20Apps`;
     return this.getResponse(url);
   }
 

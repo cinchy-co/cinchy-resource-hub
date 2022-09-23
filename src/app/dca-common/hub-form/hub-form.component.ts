@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component, ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {IField, IFormField, IUser} from "../../models/common.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ReplaySubject} from "rxjs";
@@ -18,13 +27,20 @@ export class HubFormComponent implements OnInit {
   @Input() buttonLabel: string;
   @Input() successMessage = 'Your changes has been done';
   @Input() existingDetails: any;
+  @Input() topSpaceToButton: string;
   @Input() updateWithHiddenOrDisabledFields: boolean;
+  @Input() doAutoFocus: boolean;
+
+  @Output() submitClicked: EventEmitter<any> = new EventEmitter<any>();
+
   allFields: IFormField[] = [];
   optionsForFields: any = {};
   customForm: FormGroup;
   customFormQueries: any;
   showLoader: boolean;
+
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  @ViewChild("autoFocusInput") autoFocusInput: ElementRef;
 
   constructor(private apiService: ApiCallsService, private fb: FormBuilder, private appStateService: AppStateService,
               private messageService: MessageService, private changeDetectionRef: ChangeDetectorRef) {
@@ -68,6 +84,11 @@ export class HubFormComponent implements OnInit {
       }
     });
     this.createForm();
+    if (this.doAutoFocus) {
+      setTimeout(() => {
+        this.autoFocusInput.nativeElement.focus();
+      }, 100);
+    }
   }
 
   createForm() {
@@ -114,21 +135,25 @@ export class HubFormComponent implements OnInit {
     if (this.userDetails) {
       params['@username'] = this.userDetails.username;
     }
+    this.showLoader = true;
     try {
-      this.showLoader = true;
       await this.apiService.executeCinchyQueries(insertQueryName, insertQueryDomain, params, true).toPromise();
+      this.submitClicked.emit(formValues);
       this.showLoader = false;
+      this.customForm.reset();
+      this.customForm.reset(this.customForm.value);
       this.messageService.add({
         severity: 'success',
         summary: 'Submit Successful',
         detail: this.successMessage
       });
+      this.changeDetectionRef.detectChanges();
     } catch (e: any) {
-      this.handleError(e);
+      this.handleError(e, formValues);
     }
   }
 
-  handleError(e: any) {
+  handleError(e: any, formValues: any) {
     if (e?.cinchyException?.data?.status === 200) {
       this.showLoader = false;
       this.messageService.add({
@@ -136,6 +161,11 @@ export class HubFormComponent implements OnInit {
         summary: 'Submit Successful',
         detail: this.successMessage
       });
+      this.submitClicked.emit(formValues);
+      this.showLoader = false;
+      this.customForm.reset();
+      this.customForm.reset(this.customForm.value);
+      this.changeDetectionRef.detectChanges();
     } else {
       this.showLoader = false;
       this.messageService.add({

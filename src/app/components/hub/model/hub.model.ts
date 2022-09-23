@@ -5,6 +5,25 @@ export interface IFeatures {
   linkTitle: string;
 }
 
+export interface ICollabMessage {
+  creatorName: string;
+  date: string;
+  title: string;
+  description: string;
+  modifiedDate?: string;
+  id: string;
+  edited?: boolean;
+  username: string;
+  canUpdateOrDelete: boolean;
+  numberComments?: number;
+  parentId?: string;
+}
+
+export type IComments = {
+  [key in any]: ICollabMessage[] | undefined;
+}
+
+
 export interface INewsFeed {
   creatorName: string;
   date: string;

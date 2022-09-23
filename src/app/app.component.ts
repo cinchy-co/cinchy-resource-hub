@@ -75,7 +75,14 @@ export class AppComponent implements OnInit {
         console.error(e);
       }
     });
+    this.setRoutingAndGlobalDetails();
+  }
+
+  async setRoutingAndGlobalDetails() {
     this.appStateService.communityDetails = await this.apiCallsService.getCommunityPageDetails().toPromise();
+    this.apiCallsService.getFooterDetails().subscribe(footer => {
+      this.appStateService.footerDetails = footer;
+    });
     this.loginDone = true;
 
     if (isPlatformBrowser(this.platformId)) {
@@ -85,14 +92,20 @@ export class AppComponent implements OnInit {
       const currentUrl = sessionStorage.getItem('current-url-hub');
       let route: any = '/';
       if (environment.production) {
-        route = currentUrl?.split('/hub')[1] || route;
+        route = currentUrl?.split('/marketing-hub')[1] || route;
       } else {
-        route = currentUrl?.split(':3000')[1] || currentUrl?.split('/hub')[1] || route;
+        route = currentUrl?.split(':3100')[1] || currentUrl?.split('/marketing-hub')[1] || route;
       }
-      console.log('1111 ROUTE', route, environment.production, currentUrl);
-      this.router.navigate([`${route}`]);
+      const routeWithoutQueryParam = route.split('?')[0];
+      const queryParams: any = {};
+      if (route.split('?')[1]) {
+        const urlParams = new URLSearchParams(route.split('?')[1]);
+        urlParams.forEach((value, key) => {
+          queryParams[key] = value;
+        });
+      }
+      this.router.navigate([`${routeWithoutQueryParam}`], {queryParams});
       sessionStorage.removeItem('current-url-hub')
-
     }
   }
 

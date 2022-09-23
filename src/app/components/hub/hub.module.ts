@@ -35,6 +35,8 @@ import {PipesModule} from "../../pipes/pipes.module";
 import { GettingStartedComponent } from './getting-started/getting-started.component';
 import {TableModule} from "primeng/table";
 import {ProfilePreferencesComponent} from "../profile-preferences/profile-preferences.component";
+import {TieredMenuModule} from "primeng/tieredmenu";
+import {DialogModule} from "primeng/dialog";
 
 const routes = [
   {
@@ -58,7 +60,7 @@ const routes = [
         component: ToolsComponent
       },
       {
-        path: 'tables',
+        path: 'apps',
         component: TablesComponent
       },
       {
@@ -142,6 +144,8 @@ const routes = [
     TabMenuModule,
     PipesModule,
     TableModule,
+    TieredMenuModule,
+    DialogModule,
   ],
   exports: [RouterModule]
 })

@@ -8,16 +8,24 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import {ApiCallsService} from "../../../services/api-calls.service";
-import {IFeatures, INewsFeed, INewsFeedFilter, INewsSelectedFilter, ISelectedFilter} from "../model/hub.model";
+import {
+  ICollabMessage, IComments,
+  IFeatures,
+  INewsFeed,
+  INewsFeedFilter,
+  INewsSelectedFilter,
+  ISelectedFilter
+} from "../model/hub.model";
 import {AppStateService} from "../../../services/app-state.service";
 import {IFooter, ISocialMedia, IUser} from "../../../models/common.model";
 import {ICommunityDetails} from "../../../models/general-values.model";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ReplaySubject, take, takeUntil} from "rxjs";
-import {MessageService} from "primeng/api";
+import {MenuItem, MessageService} from "primeng/api";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../../services/window-ref.service";
+import {TieredMenu} from "primeng/tieredmenu";
 
 @Component({
   selector: 'app-hub-home',
@@ -26,20 +34,23 @@ import {WindowRefService} from "../../../services/window-ref.service";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HubHomeComponent implements OnInit, OnDestroy {
-  newsFeed: INewsFeed[];
-  filteredNewsFeed: INewsFeed[];
   userDetails: IUser;
-  footerDetails: IFooter[];
-  socialMediaDetails: ISocialMedia[];
   headerDetails: ICommunityDetails;
-  filters: INewsFeedFilter[];
-  featuredFilters: INewsFeedFilter[];
-  groupNames: string[];
-  selectedFilters: INewsSelectedFilter[] = [];
-  mappedFilters: any;
   homeDetails: ICommunityDetails;
   hubFeatures: IFeatures[];
   showFeatures = true;
+  pageId = 'updates';
+  collabMessages: ICollabMessage[];
+  showEditDialog: boolean;
+  currentMessage: ICollabMessage;
+  currentCommentsParent: ICollabMessage;
+  showNewMessage: boolean;
+  commentsForMessages: IComments = {};
+  currentComment: ICollabMessage;
+  showEditCommentDialog: boolean;
+  actionItems: MenuItem[];
+  commentClicked: boolean;
+  doAutoFocus: boolean;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
@@ -50,28 +61,17 @@ export class HubHomeComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     const communityDetails = this.appStateService.communityDetails;
-    console.log('1111 CD', communityDetails);
     this.homeDetails = communityDetails.find(item => item.id === 'updates') as ICommunityDetails;
-   /* this.newsFeed = (await this.appApiService.getHubNewsfeed().toPromise()) as INewsFeed[];
-    this.filters = await this.appApiService.getHubNewsFilter().toPromise();*/
     this.appApiService.getHubFeatures().pipe(take(1)).subscribe(val => {
       this.hubFeatures = val;
       this.changeDetectionRef.markForCheck();
     });
-   /* this.featuredFilters = this.filters.filter(filter => filter.isFeatured);
-    this.setFiltersAsPerGroup();*/
+
     this.userDetails = this.appStateService.userDetails;
- /*   if (this.appStateService.newsFeedHomeFilters?.length) {
-      this.selectedFilters = this.appStateService.newsFeedHomeFilters;
-      this.filterNewsFeed();
-    } else {
-      this.updateFiltersBasedOnSaveState();
-    }*/
 
     this.headerDetails = communityDetails.find(item => item.id === 'home') as ICommunityDetails;
-    /*this.socialMediaDetails = (await this.appApiService.getSocialMediaDetails().toPromise());
-    this.footerDetails = this.appStateService.footerDetails;*/
     this.showFeatures = this.appStateService.showFeatures;
+    this.getCollabMessages();
     this.changeDetectionRef.detectChanges();
   }
 
@@ -86,117 +86,154 @@ export class HubHomeComponent implements OnInit, OnDestroy {
     this.appStateService.showFeatures = this.showFeatures;
   }
 
-  updateFiltersBasedOnSaveState() {
-    this.appStateService.getUserDetailsSub().subscribe(userDetails => {
-      this.userDetails = userDetails;
-      this.appApiService.getSavedHubNewsFilter(this.userDetails.displayName).pipe(take(1)).subscribe(savedFilters => {
-        if (savedFilters?.length && savedFilters[0].id) {
-          const filterNames = savedFilters[0].filter.split(', ');
-          const filterIds = savedFilters[0].id.split(', ');
-          this.selectedFilters = filterNames.map((name: string, i: string) => {
-            const filterInAllFilters = this.filters.find(item => item.id === filterIds[i]);
-            return {
-              filter: {
-                name: name, id: filterIds[i], isFeatured: filterInAllFilters?.isFeatured
-              }
-            }
-          });
-          this.appStateService.newsFeedHomeFilters = this.selectedFilters;
-          this.filterNewsFeed();
-        } else {
-          this.activatedRoute.queryParams.pipe(takeUntil(this.destroyed$)).subscribe(params => {
-            this.updateFiltersBasedOnQuery(params);
-          });
-        }
-      });
-    })
-  }
-
-  updateFiltersBasedOnQuery(params: any) {
-    const paramKeys = Object.keys(params);
-    const quickFiltersArr: any = [];
-    paramKeys.forEach((key: string) => {
-      const keyValues = params[key].split(',');
-      keyValues.forEach((item: string) => {
-        const filterInMapped = this.mappedFilters[key];
-        if (filterInMapped) {
-          const valueOfFilter = filterInMapped.filters.find((filterVal: ISelectedFilter) => item.toLocaleLowerCase() === filterVal.name.toLocaleLowerCase());
-          valueOfFilter && quickFiltersArr.push({labelKey: key, filter: valueOfFilter});
-        }
-      })
+  async getCollabMessages() {
+    this.appApiService.getHubMessages(this.pageId).pipe(take(1)).subscribe(collabMessages => {
+      this.collabMessages = collabMessages.reverse();
+      this.appStateService.getUserDetailsSub().pipe(takeUntil(this.destroyed$))
+        .subscribe(async (userDetails: IUser) => {
+          this.userDetails = userDetails;
+          this.collabMessages = this.collabMessages.map(message => {
+            return {...message, canUpdateOrDelete: this.userDetails.username === message.username}
+          })
+          this.changeDetectionRef.detectChanges();
+        })
     });
-    this.selectedFilters = quickFiltersArr;
-    this.appStateService.newsFeedHomeFilters = this.selectedFilters;
-    this.filterNewsFeed();
   }
 
-  setFiltersAsPerGroup() {
-    const mappedFilters: any = {};
-    this.filters.forEach(item => {
-      const currentGroup = mappedFilters[item.filterGroup];
-      if (currentGroup) {
-        currentGroup.filters.push({name: item.filterTag, id: item.id, isFeatured: item.isFeatured});
-      } else {
-        mappedFilters[item.filterGroup] = {
-          filters: [{name: item.filterTag, id: item.id, isFeatured: item.isFeatured}],
-          labelKey: item.labelKey
-        };
-      }
-    });
-    this.groupNames = Object.keys(mappedFilters);
-    this.mappedFilters = mappedFilters;
+  getMessageWithLinks(messageDesc: string) {
+    return messageDesc.replace(
+      /(https?:\/\/)([^ ]+)/g,
+      '<a target="_blank" class="link-color" href="$&">$2</a>'
+    );
   }
 
-  getIcon(option: INewsFeed): IconProp {
-    const iconToTake = option.type;
-    return iconToTake.split(',') as IconProp;
+  showNewMessageForm() {
+    this.showNewMessage = !this.showNewMessage;
   }
 
-  getTags(option: INewsFeed): string[] {
-    return option.tags.split(', ');
+  messageAdded(formValues: any, isEdit?: boolean) {
+    this.getCollabMessages();
   }
 
-  filterToggled(filter: ISelectedFilter, labelKey: string) {
-    const isInSelectedFilters = this.selectedFilters.find(item => item.filter.name === filter.name);
-    if (isInSelectedFilters) {
-      this.selectedFilters = this.selectedFilters.filter(item => item.filter.id !== filter.id);
-    } else {
-      this.selectedFilters.push({filter, labelKey});
+  getNewOrUpdatedMessage(formValues: any, isEdit?: boolean, isComment?: boolean): ICollabMessage {
+    return {
+      date: new Date().toDateString(),
+      title: formValues.title,
+      description: formValues.message,
+      creatorName: this.userDetails.name,
+      id: isEdit ? formValues.id : Math.random().toString(),
+      edited: !!isEdit,
+      canUpdateOrDelete: true,
+      username: this.userDetails.username,
+      numberComments: 0,
+      parentId: isComment ? this.currentComment.parentId : ''
     }
-    this.appStateService.newsFeedHomeFilters = this.selectedFilters;
-    this.filterNewsFeed();
-    this.changeDetectionRef.detectChanges();
   }
 
-  filterNewsFeed() {
-    this.filteredNewsFeed = this.newsFeed.filter((item: any) => {
-      const itemTags = this.getTags(item);
-      return this.selectedFilters.length ?
-        itemTags.some(r => this.selectedFilters.find(fItem => fItem.filter.name.toLocaleLowerCase() === r.toLocaleLowerCase()))
-        || this.selectedFilters.find(fItem => fItem.filter.name.toLocaleLowerCase() === item.category.toLocaleLowerCase())
-        : true;
-    });
-    this.changeDetectionRef.detectChanges();
+  editMessage(message: ICollabMessage) {
+    this.showEditDialog = true;
+    this.currentMessage = message;
   }
 
-  clearFilters() {
-    this.selectedFilters = [];
-    this.filteredNewsFeed = this.newsFeed;
+  async deleteMessage(message: ICollabMessage, isComment?: boolean) {
+    try {
+      await this.appApiService.deleteMessage(message.id).toPromise();
+      const messageToFilterFrom = isComment ? this.commentsForMessages[this.currentCommentsParent.id] : this.collabMessages;
+      if (isComment) {
+        this.commentsForMessages[this.currentCommentsParent.id] = messageToFilterFrom?.filter(item => item.id !== message.id);
+        const currentCommentsTotal = this.currentCommentsParent.numberComments;
+        this.currentCommentsParent.numberComments = currentCommentsTotal ? currentCommentsTotal - 1 : 0;
+      } else {
+        this.collabMessages = messageToFilterFrom?.filter(item => item.id !== message.id) as ICollabMessage[];
+      }
+      this.successMessage();
+      this.changeDetectionRef.detectChanges();
+    } catch (e) {
+      this.errorMessage();
+    }
   }
 
-  isSelectedFilter(filter: ISelectedFilter, labelKey?: string): boolean {
-    return !!this.selectedFilters.find(item => item.filter.name === filter.name);
+  async getComments(message: ICollabMessage, numberComments?: boolean) {
+    this.currentCommentsParent = message;
+    this.doAutoFocus = !numberComments;
+    this.commentsForMessages[message.id] = await this.appApiService.getHubCommentsPerMessage(message.id).toPromise();
+    this.commentsForMessages[message.id] = this.commentsForMessages[message.id]?.map(comment => {
+      return {...comment, canUpdateOrDelete: this.userDetails.username === comment.username}
+    })
+    this.changeDetectionRef.markForCheck();
   }
 
-  async saveFilters() {
-    const allFilterIdParam = this.selectedFilters.map(filter => filter.filter.id).join();
-    await this.appApiService.saveHubNewsFilter(allFilterIdParam).toPromise();
+  commentAdded(formValues: any, isEdit?: boolean) {
+    this.currentCommentsParent = this.collabMessages.find(message => message.id === formValues.msgId) as ICollabMessage;
+    this.getComments(this.currentCommentsParent)
+    const newComment: ICollabMessage = this.getNewOrUpdatedMessage(formValues, isEdit);
+    this.currentComment = isEdit ? {...this.currentComment, ...newComment} : this.currentComment;
+    const currentCommentsTotal = this.currentCommentsParent.numberComments;
+    this.currentCommentsParent.numberComments = isEdit ? currentCommentsTotal : currentCommentsTotal ? currentCommentsTotal + 1 : 1;
+  }
+
+  editComment(comment: ICollabMessage) {
+    this.showEditCommentDialog = true;
+    this.currentComment = comment;
+  }
+
+  closeComments(message: ICollabMessage) {
+    // this.currentCommentsParent = {} as ICollabMessage;
+    this.commentsForMessages[message.id] = undefined;
+  }
+
+  successMessage() {
     this.messageService.add({
       severity: 'success',
-      summary: 'Filters Saved',
-      detail: 'Your filter selection has been saved'
+      summary: 'Delete Successful',
+      detail: 'Your message has been deleted'
     });
   }
+
+  errorMessage() {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Network error',
+      detail: 'Please try again after other time'
+    });
+  }
+
+  showContext(cm: TieredMenu, event: MouseEvent, message: ICollabMessage, isComment?: boolean) {
+    this.commentClicked = !!isComment;
+    if (isComment) {
+      this.currentCommentsParent = (this.collabMessages.find(parent => parent.id == message.parentId)) as ICollabMessage;
+      this.currentComment = message;
+    } else {
+      this.currentMessage = message;
+    }
+    cm.toggle(event);
+    event.stopPropagation();
+  }
+
+  setActionItems() {
+    this.actionItems = [
+      {
+        label: 'Edit',
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          if (this.commentClicked) {
+            this.editComment(this.currentComment);
+          } else {
+            this.editMessage(this.currentMessage);
+          }
+        }
+      },
+      {
+        label: 'Delete',
+        icon: 'pi pi-fw pi-trash',
+        command: (event) => {
+          const messageToDelete = this.commentClicked ? this.currentComment : this.currentMessage;
+          this.deleteMessage(messageToDelete, this.commentClicked);
+        }
+      }
+    ];
+  }
+
 
   getArrayForCount(count: number) {
     return new Array(count);
