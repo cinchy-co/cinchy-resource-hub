@@ -125,4 +125,10 @@ export interface ISocialMedia {
 }
 
 
+export interface IOptionLead {
+  Name: string;
+  Label: string;
+}
+
+
 export type FieldTypes = 'input' | 'link';

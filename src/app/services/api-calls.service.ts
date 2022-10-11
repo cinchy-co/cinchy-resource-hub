@@ -181,6 +181,21 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getFiscalYears(): Observable<any> {
+    const url = `/API/Marketing/Get%20Fiscal%20Year%20Labels`;
+    return this.getResponse(url);
+  }
+
+  getCalendarMonths(): Observable<any> {
+    const url = `/API/Marketing/Get%20Calendar%20Months`;
+    return this.getResponse(url);
+  }
+
+  getLeads(): Observable<any> {
+    const url = `/API/Marketing/Forecast%20vs%20Actual%20Leads`;
+    return this.getResponse(url);
+  }
+
   getSuggestionFormQueries(formId: string): Observable<any> {
     const url = `/API/Marketing/Get%20Suggestion%20Form%20Queries?%40formId=${formId}`;
     return this.getResponse(url);

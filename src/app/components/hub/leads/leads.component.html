@@ -1,0 +1,53 @@
+<p-progressSpinner class="item-center-n-relative"
+                   *ngIf="!tableData">
+</p-progressSpinner>
+
+<section>
+  <app-common-header [headerDetails]="headerDetails"></app-common-header>
+
+  <p-divider></p-divider>
+
+<!--  <div class="w-full">
+    <form class="flex flex-wrap gap-10 w-full" [formGroup]="leadForm" *ngIf="leadForm">
+      <div class="flex flex-col">
+        <label class="text-sm-12">Select Fiscal year</label>
+        <p-multiSelect class="w-[250px]" [options]="fiscalYears" formControlName="fiscalYears" optionLabel="Label"
+                       optionValue="Name"></p-multiSelect>
+      </div>
+
+      <div class="flex flex-col">
+        <label class="text-sm-12">Select month</label>
+        <p-multiSelect class="w-[250px]" [options]="calendarMonths" formControlName="calendarMonths"
+                       optionLabel="Label" optionValue="Name"></p-multiSelect>
+      </div>
+
+    </form>
+
+    <div class="mt-4">
+      <p-button *ngIf="leadForm" class="btn-color-green p-button-raised p-button-rounded"
+                [label]="'Find'"
+                [ngClass]="{'disabled': !leadForm.valid}"
+                (click)="submit()">
+      </p-button>
+    </div>
+  </div>-->
+
+  <div *ngIf="tableData && tableData.length" class="w-[100%]">
+    <p-table [value]="tableData">
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let col of getCols(tableData[0])">
+            {{col}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-tableRow>
+        <tr>
+          <td *ngFor="let col of getCols(tableData[0])">
+            {{tableRow[col]}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</section>

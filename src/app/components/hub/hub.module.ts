@@ -32,11 +32,12 @@ import {CollabDetailsComponent} from './collab-details/collab-details.component'
 import {DcaCommonModule} from "../../dca-common/dca-common.module";
 import {TabMenuModule} from "primeng/tabmenu";
 import {PipesModule} from "../../pipes/pipes.module";
-import { GettingStartedComponent } from './getting-started/getting-started.component';
+import {GettingStartedComponent} from './getting-started/getting-started.component';
 import {TableModule} from "primeng/table";
 import {ProfilePreferencesComponent} from "../profile-preferences/profile-preferences.component";
 import {TieredMenuModule} from "primeng/tieredmenu";
 import {DialogModule} from "primeng/dialog";
+import {LeadsComponent} from './leads/leads.component';
 
 const routes = [
   {
@@ -62,6 +63,10 @@ const routes = [
       {
         path: 'apps',
         component: TablesComponent
+      },
+      {
+        path: 'leads',
+        component: LeadsComponent
       },
       {
         path: 'ideas',
@@ -122,7 +127,8 @@ const routes = [
     CollabsComponent,
     CommonHeaderComponent,
     CollabDetailsComponent,
-    GettingStartedComponent
+    GettingStartedComponent,
+    LeadsComponent
   ],
   imports: [
     CommonModule,
