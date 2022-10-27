@@ -5,7 +5,6 @@ import {RouterModule} from "@angular/router";
 import {ToolsComponent} from './tools/tools.component';
 import {TablesComponent} from './tables/tables.component';
 import {SuggestionsComponent} from './suggestions/suggestions.component';
-import {BookmarksComponent} from './bookmarks/bookmarks.component';
 import {HubHomeComponent} from './hub-home/hub-home.component';
 import {HubRightbarComponent} from './hub-rightbar/hub-rightbar.component';
 import {DividerModule} from "primeng/divider";
@@ -17,7 +16,6 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
 import {EventsComponent} from './events/events.component';
 import {LearningComponent} from './learning/learning.component';
-import {CollabsComponent} from './collabs/collabs.component';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
@@ -28,7 +26,6 @@ import {InputTextareaModule} from "primeng/inputtextarea";
 import {MultiSelectModule} from "primeng/multiselect";
 import {ChipModule} from "primeng/chip";
 import {OverlayPanelModule} from "primeng/overlaypanel";
-import {CollabDetailsComponent} from './collab-details/collab-details.component';
 import {DcaCommonModule} from "../../dca-common/dca-common.module";
 import {TabMenuModule} from "primeng/tabmenu";
 import {PipesModule} from "../../pipes/pipes.module";
@@ -38,6 +35,10 @@ import {ProfilePreferencesComponent} from "../profile-preferences/profile-prefer
 import {TieredMenuModule} from "primeng/tieredmenu";
 import {DialogModule} from "primeng/dialog";
 import {LeadsComponent} from './leads/leads.component';
+import { CampaignsComponent } from './campaigns/campaigns.component';
+import {PanelModule} from "primeng/panel";
+import {PaginatorModule} from "primeng/paginator";
+import { PeopleComponent } from './people/people.component';
 
 const routes = [
   {
@@ -69,12 +70,12 @@ const routes = [
         component: LeadsComponent
       },
       {
-        path: 'ideas',
-        component: SuggestionsComponent
+        path: 'people',
+        component: PeopleComponent
       },
       {
-        path: 'bookmarks',
-        component: BookmarksComponent
+        path: 'ideas',
+        component: SuggestionsComponent
       },
       {
         path: 'marketplace',
@@ -85,24 +86,8 @@ const routes = [
         component: EventsComponent
       },
       {
-        path: 'learning',
-        component: LearningComponent
-      },
-      {
-        path: 'collaboration',
-        component: CollabsComponent
-      },
-      {
-        path: 'collab-privacy-laws',
-        component: CollabDetailsComponent
-      },
-      {
-        path: 'collab-privacy-regulators',
-        component: CollabDetailsComponent
-      },
-      {
-        path: 'sensitive-personal-info-taxonomy',
-        component: CollabDetailsComponent
+        path: 'campaigns',
+        component: CampaignsComponent
       },
       {
         path: 'preferences',
@@ -118,17 +103,16 @@ const routes = [
     ToolsComponent,
     TablesComponent,
     SuggestionsComponent,
-    BookmarksComponent,
     HubHomeComponent,
     HubRightbarComponent,
     MarketplaceComponent,
     EventsComponent,
     LearningComponent,
-    CollabsComponent,
     CommonHeaderComponent,
-    CollabDetailsComponent,
     GettingStartedComponent,
-    LeadsComponent
+    LeadsComponent,
+    CampaignsComponent,
+    PeopleComponent
   ],
   imports: [
     CommonModule,
@@ -152,6 +136,8 @@ const routes = [
     TableModule,
     TieredMenuModule,
     DialogModule,
+    PanelModule,
+    PaginatorModule,
   ],
   exports: [RouterModule]
 })

@@ -1,0 +1,59 @@
+<section>
+  <app-common-header [headerDetails]="headerDetails"></app-common-header>
+
+  <p-divider></p-divider>
+
+  <p-panel header="Campaigns">
+
+    <div class="flex flex-wrap gap-2.5 mt-3 mb-5 pl-4 pr-4">
+      <div *ngFor="let tag of campaignsStatus" (click)="statusSelected(tag)">
+        <p-chip class="cursor-pointer" [ngClass]="{'selected-chip': isSelectedFilter(tag)}"
+        [label]="tag.label"></p-chip>
+      </div>
+    </div>
+
+    <p-progressSpinner class="item-center-n-relative"
+                       *ngIf="showLoader">
+    </p-progressSpinner>
+
+    <div class="flex flex-wrap gap-10 pl-4 pr-4" *ngIf="!showLoader">
+      <div class="cursor-pointer default-border w-[320px] h-[310px] rounded-[20px]" *ngFor="let item of paginatedCampaigns">
+        <div class="flex items-center justify-center bg-gray-300 mb-2 rounded-t-[20px] h-[60px] max-h-[60px]"
+             (click)="goToSelection(item)">
+          <p class="text-[24px]" [innerHTML]="item.header"></p>
+        </div>
+
+        <div class="flex flex-col pt-1 pb-3 pl-4 pr-4 h-[170px]" (click)="goToSelection(item)">
+          <span class="line-clamp-2 text-[20px] font-semibold mb-2" [title]="item.title"
+                [innerHTML]="item.title"></span>
+          <span class="line-clamp-6 text-sm-12 text-gray-800" [title]="item.description"
+                [innerHTML]="item.description"></span>
+          <span class="line-clamp-2 text-sm-12 font-semibold mb-2" [title]="item.startDate"
+                [innerHTML]="'Start Date:' + ' ' + (item.startDate | date)"></span>
+          <span *ngIf="item.endDate" class="line-clamp-2 text-sm-12 font-semibold mb-2" [title]="item.endDate"
+                [innerHTML]="'End Date:' + ' ' + (item.endDate | date)"></span>
+
+        </div>
+
+        <hr>
+
+        <div class="pt-3 pb-3 pl-4 pr-4 flex justify-between">
+          <div class="w-[100%] flex">
+            <ng-container *ngFor="let count of getArrayForCount(item.totalLinks);let i = index">
+              <div class="mb-2 mt-2 mr-3" *ngIf="item['link-'+(i+1)]">
+                <a class="text-sky-500 text-sm" target="_blank"
+                   [href]="item['link-'+(i+1)]">{{item['link-label-' + (i + 1)]}}</a>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p-paginator [pageLinkSize]="3" *ngIf="filteredCampaigns?.length" [rows]="pageSize"
+                 [totalRecords]="filteredCampaigns.length"
+                 [alwaysShow]="false"
+                 (onPageChange)="paginate($event)">
+    </p-paginator>
+  </p-panel>
+</section>

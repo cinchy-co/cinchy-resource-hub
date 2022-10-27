@@ -143,6 +143,41 @@ export interface IEvents {
   zoomLink: string;
 }
 
+// have other links too like link-1, , link-label-1, link-2, link-label-2, can have more
+export interface ICampaigns {
+  title: string;
+  endDate: string;
+  startDate: string;
+  parentLink: string;
+  header: string;
+  totalLinks: number;
+  description: string;
+  'link-1': string;
+  'link-2': string;
+  'link-3': string;
+  'link-label-1': string;
+  'link-label-2': string;
+  'link-label-3': string;
+}
+
+export interface ITeam {
+  team: string;
+  photo: string;
+  title: string;
+  description: string;
+  totalLinks: number;
+  'link-1': string;
+  'link-2': string;
+  'link-3'?: string;
+  'link-label-1': string;
+  'link-label-2': string;
+  'link-label-3'?: string;
+}
+
+export interface IOptionHub {
+  label: string;
+}
+
 export interface IBookmark {
   link: string;
   fullLink: string;

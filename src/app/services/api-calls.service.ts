@@ -20,6 +20,8 @@ export class ApiCallsService {
   cachedLaws: any;
   cachedTags: any;
   cachedFooterPagesDetails: any = {};
+  cachedCampaigns: any = {};
+  cachedPeople: any = {};
 
   constructor(private http: HttpClient, private cinchyService: CinchyService, @Inject(PLATFORM_ID) private platformId: any,
               private configService: ConfigService, private appStateService: AppStateService) {
@@ -175,7 +177,7 @@ export class ApiCallsService {
       tap(resp => this.appStateService.tool[toolId] = resp)
     );
   }
-
+// MARKET
   getHubTables(): Observable<any> {
     const url = `/API/Marketing/Get%20Hub%20Apps`;
     return this.getResponse(url);
@@ -194,6 +196,40 @@ export class ApiCallsService {
   getLeads(): Observable<any> {
     const url = `/API/Marketing/Forecast%20vs%20Actual%20Leads`;
     return this.getResponse(url);
+  }
+
+  getTeams(): Observable<any> {
+    const url = `/API/Marketing/Get%20Hub%20People%20Team`;
+    return this.getResponse(url);
+  }
+
+  getPeople(team: string): Observable<any> {
+    const url = `/API/Marketing/Get%20Hub%20People?%40team=${team}`;
+    const teamToCheck = team ? team : 'all';
+    if (this.cachedPeople[teamToCheck]) {
+      return of(this.cachedPeople[teamToCheck]);
+    } else {
+      return this.getResponse(url).pipe(
+        tap(resp => this.cachedPeople[teamToCheck] = resp)
+      );
+    }
+  }
+
+  getCampaignStatus(): Observable<any> {
+    const url = `/API/Marketing/Get%20Hub%20Campaign%20Status`;
+    return this.getResponse(url);
+  }
+  //
+  getCampaigns(status: string) {
+    const url = `/API/Marketing/Get%20Hub%20Campaigns?%40status=${status}`;
+    const statusToCheck = status ? status : 'all';
+    if (this.cachedCampaigns[statusToCheck]) {
+      return of(this.cachedCampaigns[statusToCheck]);
+    } else {
+      return this.getResponse(url).pipe(
+        tap(resp => this.cachedCampaigns[statusToCheck] = resp)
+      );
+    }
   }
 
   getSuggestionFormQueries(formId: string): Observable<any> {
