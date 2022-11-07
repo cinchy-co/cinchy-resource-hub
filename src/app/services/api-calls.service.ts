@@ -183,6 +183,12 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  // MARKET
+  getHubDashboards(): Observable<any> {
+    const url = `/API/Marketing/Get%20Dashboard%20Page`;
+    return this.getResponse(url);
+  }
+
   getFiscalYears(): Observable<any> {
     const url = `/API/Marketing/Get%20Fiscal%20Year%20Labels`;
     return this.getResponse(url);

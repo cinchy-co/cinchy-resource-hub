@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {ApiCallsService} from "../../../services/api-calls.service";
-import {ITools} from "../model/hub.model";
+import {ITables, ITools} from "../model/hub.model";
 import {AppStateService} from "../../../services/app-state.service";
 import {ICommunityDetails} from "../../../models/general-values.model";
 import {Router} from "@angular/router";
+import {isPlatformBrowser} from "@angular/common";
+import {WindowRefService} from "../../../services/window-ref.service";
 
 @Component({
   selector: 'app-tools',
@@ -11,22 +13,25 @@ import {Router} from "@angular/router";
   styleUrls: ['./tools.component.scss']
 })
 export class ToolsComponent implements OnInit {
-  tools: ITools[];
+  tools: ITables[];
   toolsHeaderDetails: ICommunityDetails;
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
-              private router: Router) {
+              private router: Router, private windowRef: WindowRefService, @Inject(PLATFORM_ID) private platformId: any) {
   }
 
   async ngOnInit() {
     const communityDetails = this.appStateService.communityDetails;
-    this.toolsHeaderDetails = communityDetails.find(item => item.id === 'tools') as ICommunityDetails;
-    this.tools = await this.appApiService.getHubTools().toPromise();
+    this.toolsHeaderDetails = communityDetails.find(item => item.id === 'reports') as ICommunityDetails;
+    this.tools = await this.appApiService.getHubDashboards().toPromise();
   }
 
-  goToSelection(item: ITools) {
-    this.appStateService.currentToolSelected = item;
-    this.router.navigate([`tools/${item.toolRoute}`]);
+  goToSelection(item: ITables) {
+    if(isPlatformBrowser(this.platformId)) {
+      const url = item.tableLink
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
+//    this.router.navigate([`tools/${item.toolRoute}`]);
   }
 
 }

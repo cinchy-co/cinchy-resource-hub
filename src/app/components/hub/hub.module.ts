@@ -58,7 +58,7 @@ const routes = [
         component: ProfileFormComponent
       },
       {
-        path: 'tools',
+        path: 'reports',
         component: ToolsComponent
       },
       {
