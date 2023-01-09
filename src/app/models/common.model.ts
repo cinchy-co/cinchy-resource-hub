@@ -124,6 +124,13 @@ export interface ISocialMedia {
   socialLink: string;
 }
 
+export interface ITopNews {
+  title: string;
+  date: string;
+  id: string;
+  link: string;
+  source: string
+}
 
 export interface IOptionLead {
   Name: string;

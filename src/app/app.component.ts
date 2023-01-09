@@ -14,7 +14,7 @@ import {Router} from "@angular/router";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'marketing-hub';
+  title = 'hub';
   isSidebarExpanded = true;
   loginDone: boolean;
   userDetails: IUser;
@@ -92,9 +92,9 @@ export class AppComponent implements OnInit {
       const currentUrl = sessionStorage.getItem('current-url-hub');
       let route: any = '/';
       if (environment.production) {
-        route = currentUrl?.split('/marketing-hub')[1] || route;
+        route = currentUrl?.split('/hub')[1] || route;
       } else {
-        route = currentUrl?.split(':3100')[1] || currentUrl?.split('/marketing-hub')[1] || route;
+        route = currentUrl?.split(':3100')[1] || currentUrl?.split('/hub')[1] || route;
       }
       const routeWithoutQueryParam = route.split('?')[0];
       const queryParams: any = {};

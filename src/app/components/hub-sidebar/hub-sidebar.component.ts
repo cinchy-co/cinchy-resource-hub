@@ -70,8 +70,6 @@ export class HubSidebarComponent implements OnInit {
   }
 
   optionClicked(option: ICommunityDetails) {
-    console.log('111 ROUTE option', option);
-
     if (option.id === 'more') {
       this.showMore = !this.showMore;
     } else if (option.redirectLink) {
@@ -81,7 +79,6 @@ export class HubSidebarComponent implements OnInit {
       }
     } else {
       this.currentOptionSelected = option;
-      console.log('111 ROUTE', this.collaborationBtn);
 
       this.isExpanded = this.isMobileOrTab ? false : this.isExpanded;
       this.toggleSidebarClicked.emit(this.isExpanded);
@@ -96,6 +93,13 @@ export class HubSidebarComponent implements OnInit {
 
   goToHome() {
     this.router.navigate([`/`]);
+  }
+
+  goToMarketPlace() {
+    const url = `https://cinchy.net/Home/Launcher`;
+    if(isPlatformBrowser(this.platformId)) {
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
   }
 
   goToCollabs() {

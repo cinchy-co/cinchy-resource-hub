@@ -1,5 +1,5 @@
 import {Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
-import {IFooter, ISocialMedia, IUser} from "../../../models/common.model";
+import {IFooter, ISocialMedia, ITopNews, IUser} from "../../../models/common.model";
 import {WindowRefService} from "../../../services/window-ref.service";
 import {isPlatformBrowser} from "@angular/common";
 import {Router} from "@angular/router";
@@ -15,6 +15,7 @@ export class HubRightbarComponent implements OnInit, OnDestroy {
   @Input() userDetails: IUser;
   @Input() footerDetails: IFooter[];
   @Input() socialMediaDetails: ISocialMedia[];
+  @Input() topNews: ITopNews[];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private windowRef: WindowRefService, private appStateService: AppStateService,
@@ -48,6 +49,13 @@ export class HubRightbarComponent implements OnInit, OnDestroy {
 
   goToProfile() {
     this.router.navigate([`/profile`]);
+  }
+
+  goToNews(news: ITopNews) {
+    const url = news.link;
+    if (isPlatformBrowser(this.platformId)) {
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
   }
 
   ngOnDestroy() {

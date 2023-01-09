@@ -28,17 +28,17 @@ export class ApiCallsService {
   }
 
   getHeaderBannerDetails(): Observable<any> {
-    const url = '/API/Marketing/Get%20Marketing%20Details'
+    const url = '/API/Zero-Integration%20App%20Factory/Get%20Marketing%20Details'
     return this.getResponse(url);
   }
 
   getHubMessages(hubId: string): Observable<any> {
-    const url = `/API/Marketing/Get%20Hub%20Messages?%40hubId=${hubId}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Hub%20Messages?%40hubId=${hubId}`;
     return this.getResponse(url);
   }
 
   getHubCommentsPerMessage(msgId: string): Observable<any> {
-    const url = `/API/Marketing/Get%20Message%20Comments?%40parentId=${msgId}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Message%20Comments?%40parentId=${msgId}`;
     return this.getResponse(url);
   }
 
@@ -99,12 +99,12 @@ export class ApiCallsService {
 
   // HUB
   getCommunityPageDetails(): Observable<any> {
-    const url = `/API/Marketing/Get%20Hub%20Page%20Details`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Hub%20Page%20Details`;
     return this.getResponse(url);
   }
 
   getFooterDetails(): Observable<any> {
-    const url = `/API/Marketing/Get%20Footer%20Details`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Hub%20Footer%20Details`;
     if (this.cachedFooterDetails) {
       return of(this.cachedFooterDetails);
     } else {
@@ -115,7 +115,7 @@ export class ApiCallsService {
   }
 
   getFooterPageDetails(route: string): Observable<any> {
-    const url = `/API/Marketing/Get%20Document%20Page%20Details?%40route=${route}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Document%20Page%20Details?%40route=${route}`;
     if (this.cachedFooterPagesDetails[route]) {
       return of(this.cachedFooterPagesDetails[route]);
     } else {
@@ -126,7 +126,7 @@ export class ApiCallsService {
   }
 
   getSocialMediaDetails(): Observable<any> {
-    const url = `/API/Marketing/Get%20Social%20Media%20Details`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Social%20Media%20Details`;
     if (this.cachedSocialMedia) {
       return of(this.cachedSocialMedia);
     } else {
@@ -137,39 +137,39 @@ export class ApiCallsService {
   }
 
   getHubNewsfeed(): Observable<any> {
-    const url = `/API/Marketing/Get%20Community%20Newsfeed`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Community%20Newsfeed`;
     return this.getResponse(url);
   }
 
   getHubCollabs(): Observable<any> {
-    const url = `/API/Marketing/Get%20Collabs`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Collabs`;
     return this.getResponse(url);
   }
 
   getHubCollabOverview(collabId: string): Observable<any> {
-    const url = `/API/Marketing/Get%20Collab%20Overview%20Sections?%40collabId=${collabId}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Collab%20Overview%20Sections?%40collabId=${collabId}`;
     return this.getResponse(url);
   }
 
   getHubCollabActivities(collabId: string): Observable<any> {
-    const url = `/API/Marketing/Get%20Collab%20Activities?%40collabId=${collabId}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Collab%20Activities?%40collabId=${collabId}`;
     return this.getResponse(url);
   }
 
-  // /API/Marketing/Get%20Collab%20Activities?%40collabId=as%0A
+  // /API/Zero-Integration%20App%20Factory/Get%20Collab%20Activities?%40collabId=as%0A
 
   getHubTools(): Observable<any> {
-    const url = `/API/Marketing/Get%20Tool%20Page%20Tools`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Tool%20Page%20Tools`;
     return this.getResponse(url);
   }
 
   getToolsOverview(toolId: string): Observable<any> {
-    const url = `/API/Marketing/Get%20Overview%20Sections?%40toolId=${toolId}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Overview%20Sections?%40toolId=${toolId}`;
     return this.getResponse(url);
   }
 
   getToolDetails(toolId: string): Observable<any> {
-    const url = `/API/Marketing/Get%20Tool%20Overview%20Details?%40toolsId=${toolId}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Tool%20Overview%20Details?%40toolsId=${toolId}`;
     if (this.appStateService.tool[toolId]) {
       return of(this.appStateService.tool[toolId]);
     }
@@ -179,38 +179,38 @@ export class ApiCallsService {
   }
 // MARKET
   getHubTables(): Observable<any> {
-    const url = `/API/Marketing/Get%20Hub%20Apps`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Hub%20Apps`;
     return this.getResponse(url);
   }
 
   // MARKET
   getHubDashboards(): Observable<any> {
-    const url = `/API/Marketing/Get%20Dashboard%20Page`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Hub%20Dashboard%20Page`;
     return this.getResponse(url);
   }
 
   getFiscalYears(): Observable<any> {
-    const url = `/API/Marketing/Get%20Fiscal%20Year%20Labels`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Fiscal%20Year%20Labels`;
     return this.getResponse(url);
   }
 
   getCalendarMonths(): Observable<any> {
-    const url = `/API/Marketing/Get%20Calendar%20Months`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Calendar%20Months`;
     return this.getResponse(url);
   }
 
   getLeads(): Observable<any> {
-    const url = `/API/Marketing/Forecast%20vs%20Actual%20Leads`;
+    const url = `/API/Zero-Integration%20App%20Factory/Forecast%20vs%20Actual%20Leads`;
     return this.getResponse(url);
   }
 
   getTeams(): Observable<any> {
-    const url = `/API/Marketing/Get%20Hub%20People%20Team`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Hub%20People%20Team`;
     return this.getResponse(url);
   }
 
   getPeople(team: string): Observable<any> {
-    const url = `/API/Marketing/Get%20Hub%20People?%40team=${team}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Hub%20People?%40team=${team}`;
     const teamToCheck = team ? team : 'all';
     if (this.cachedPeople[teamToCheck]) {
       return of(this.cachedPeople[teamToCheck]);
@@ -222,12 +222,12 @@ export class ApiCallsService {
   }
 
   getCampaignStatus(): Observable<any> {
-    const url = `/API/Marketing/Get%20Hub%20Campaign%20Status`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Hub%20Campaign%20Status`;
     return this.getResponse(url);
   }
   //
   getCampaigns(status: string) {
-    const url = `/API/Marketing/Get%20Hub%20Campaigns?%40status=${status}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Hub%20Campaigns?%40status=${status}`;
     const statusToCheck = status ? status : 'all';
     if (this.cachedCampaigns[statusToCheck]) {
       return of(this.cachedCampaigns[statusToCheck]);
@@ -239,64 +239,70 @@ export class ApiCallsService {
   }
 
   getSuggestionFormQueries(formId: string): Observable<any> {
-    const url = `/API/Marketing/Get%20Suggestion%20Form%20Queries?%40formId=${formId}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Suggestion%20Form%20Queries?%40formId=${formId}`;
     return this.getResponse(url);
   }
 
   getFormPageLabels(pageId: string) {
-    const url = `/API/Marketing/Get%20Form%20Labels?%40pageId=${pageId}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Form%20Labels?%40pageId=${pageId}`;
     return this.getResponse(url);
   }
 
   getHubEvents(): Observable<any> {
-    const url = `/API/Marketing/Get%20Upcoming%20Events`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Upcoming%20Events`;
     return this.getResponse(url);
   }
 
   getLearningEvents(): Observable<any> {
-    const url = `/API/Marketing/Get%20Upcoming%20Learning%20Events`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Upcoming%20Learning%20Events`;
     return this.getResponse(url);
   }
 
   getHubBookmarks(): Observable<any> {
-    const url = `/API/Marketing/Get%20My%20Bookmarks`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20My%20Bookmarks`;
     return this.getResponse(url);
   }
 
 
-  // /API/Marketing/Get%20Newsfeed%20Filters
+  // /API/Zero-Integration%20App%20Factory/Get%20Newsfeed%20Filters
   getProfileFormLabels(): Observable<any> {
-    const url = `/API/Marketing/Member%20Profile%20Page%20Labels`;
+    const url = `/API/Zero-Integration%20App%20Factory/Member%20Profile%20Page%20Labels`;
     return this.getResponse(url);
   }
 
   getProfileDetails(userName: string): Observable<any> {
-    const url = `/API/Marketing/Get%20Member%20Profile%20Details?%40userName=${userName}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Member%20Profile%20Details?%40userName=${userName}`;
     return this.getResponse(url);
   }
 
   getCinchyProfileDetails(userName: string): Observable<any> {
-    const url = `/API/Marketing/Get%20Cinchy%20Profile?%40userName=${userName}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Cinchy%20Profile?%40userName=${userName}`;
     return this.getResponse(url);
   }
 
   getHubNewsFilter(): Observable<any> {
-    const url = `/API/Marketing/Get%20Newsfeed%20Filters`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Newsfeed%20Filters`;
     return this.getResponse(url);
   }
 
   saveHubNewsFilter(params: string): Observable<any> {
-    const url = `/API/Marketing/Update%20Filter%20For%20User?%40filters=${params}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Update%20Filter%20For%20User?%40filters=${params}`;
     return this.getResponse(url);
   }
 
   getSavedHubNewsFilter(currentUser: string): Observable<any> {
-    const url = `/API/Marketing/Get%20Saved%20Filters?%40currentUser=${currentUser}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Saved%20Filters?%40currentUser=${currentUser}`;
     return this.getResponse(url);
   }
 
   getHubFeatures(): Observable<any> {
-    const url = `/API/Marketing/Get%20Hub%20Headers`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Hub%20Headers`;
+    return this.getResponse(url);
+  }
+
+  //
+  getHubTopNews(): Observable<any> {
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Featured%20News%20Stories`;
     return this.getResponse(url);
   }
 
@@ -349,7 +355,7 @@ export class ApiCallsService {
   }
 
   getLoggedInUserDetails(userName: string): Observable<IUser[]> {
-    const url = `/API/Marketing/Get%20User%20Details?%40userName=${userName}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20User%20Details?%40userName=${userName}`;
     return this.getResponse(url);
   }
 

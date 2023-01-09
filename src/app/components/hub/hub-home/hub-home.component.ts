@@ -17,7 +17,7 @@ import {
   ISelectedFilter
 } from "../model/hub.model";
 import {AppStateService} from "../../../services/app-state.service";
-import {IFooter, ISocialMedia, IUser} from "../../../models/common.model";
+import {IFooter, ISocialMedia, ITopNews, IUser} from "../../../models/common.model";
 import {ICommunityDetails} from "../../../models/general-values.model";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -41,6 +41,9 @@ export class HubHomeComponent implements OnInit, OnDestroy {
   showFeatures = true;
   pageId = 'updates';
   collabMessages: ICollabMessage[];
+  footerDetails: IFooter[];
+  socialMediaDetails: ISocialMedia[];
+  hubTopNews: ITopNews[];
   showEditDialog: boolean;
   currentMessage: ICollabMessage;
   currentCommentsParent: ICollabMessage;
@@ -67,10 +70,17 @@ export class HubHomeComponent implements OnInit, OnDestroy {
       this.changeDetectionRef.markForCheck();
     });
 
+    this.appApiService.getHubTopNews().pipe(take(1)).subscribe(val => {
+      this.hubTopNews = val;
+      this.changeDetectionRef.markForCheck();
+    });
+
     this.userDetails = this.appStateService.userDetails;
 
     this.headerDetails = communityDetails.find(item => item.id === 'home') as ICommunityDetails;
     this.showFeatures = this.appStateService.showFeatures;
+    this.socialMediaDetails = (await this.appApiService.getSocialMediaDetails().toPromise());
+    this.footerDetails = this.appStateService.footerDetails;
     this.getCollabMessages();
     this.changeDetectionRef.detectChanges();
   }
