@@ -239,7 +239,7 @@ export class ApiCallsService {
   }
 
   getSuggestionFormQueries(formId: string): Observable<any> {
-    const url = `/API/Zero-Integration%20App%20Factory/Get%20Suggestion%20Form%20Queries?%40formId=${formId}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Get%20Hub%20Form%20Queries?%40formId=${formId}`;
     return this.getResponse(url);
   }
 

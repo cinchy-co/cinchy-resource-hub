@@ -17,6 +17,11 @@ export interface ICollabMessage {
   canUpdateOrDelete: boolean;
   numberComments?: number;
   parentId?: string;
+  photo?: string;
+  linksCount: number;
+  tags: string;
+
+  [key: string | number]: any;
 }
 
 export type IComments = {

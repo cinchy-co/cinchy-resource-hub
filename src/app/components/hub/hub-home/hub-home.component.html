@@ -14,9 +14,11 @@
     </div>
 
     <div class="flex gap-10 w-full overflow-x-auto overflow-y-hidden">
-      <div class="cursor-pointer default-border min-w-[200px] max-w-[320px] w-[100%] h-[200px] rounded-[20px] mb-3 flex flex-col"
-           *ngFor="let item of hubFeatures">
-        <div class="flex items-center justify-center bg-gray-300 mb-2 rounded-t-[20px] h-[150px] max-h-[150px]" (click)="goToSelection(item)">
+      <div
+        class="cursor-pointer default-border min-w-[200px] max-w-[320px] w-[100%] h-[200px] rounded-[20px] mb-3 flex flex-col"
+        *ngFor="let item of hubFeatures">
+        <div class="flex items-center justify-center bg-gray-300 mb-2 rounded-t-[20px] h-[150px] max-h-[150px]"
+             (click)="goToSelection(item)">
           <p class="text-[32px]" [innerHTML]="item.number"></p>
         </div>
 
@@ -69,10 +71,22 @@
               <div *ngFor="let message of collabMessages" class="default-border flex flex-col mr-4 mb-3">
                 <div class="flex justify-between">
                   <div class="p-5 w-full">
-                    <div class="flex justify-between items-center gap-4">
-                      <div>
-                        <p class="text-[20px] font-semibold text-gray-800" [innerHTML]="message.title"></p>
-                        <span class="text-[12px] text-gray-500" *ngIf="message.edited">edited</span>
+                    <div class="flex gap-4 justify-between">
+                      <div class="flex gap-4">
+                        <img class="rounded-[50%]" style="width: 60px; height: 60px"
+                             [src]="'data:image/png;base64,' + message.photo"
+                             alt="photo">
+
+                        <div>
+                          <p class="text-[18px] font-semibold text-gray-800" [innerHTML]="message.title"></p>
+                          <span class="text-[12px] text-gray-500" *ngIf="message.edited">edited</span>
+
+                          <div class="flex gap-2 mb-2">
+                            <p class="text-[12px] text-gray-700" [innerHTML]="message.creatorName"></p>
+                            <p class="text-[12px] text-gray-500"
+                               [innerHTML]="message.modifiedDate ? (message.modifiedDate | date) : (message.date | date)"></p>
+                          </div>
+                        </div>
                       </div>
 
                       <div *ngIf="message.canUpdateOrDelete">
@@ -82,20 +96,34 @@
                       </div>
                     </div>
 
-                    <div class="flex gap-2 mb-2">
-                      <p class="text-[12px] text-gray-700" [innerHTML]="message.creatorName"></p>
-                      <p class="text-[12px] text-gray-500"
-                         [innerHTML]="message.modifiedDate ? (message.modifiedDate | date) : (message.date | date)"></p>
-                    </div>
                     <p class="text-sm text-gray-700" [innerHTML]="getMessageWithLinks(message.description)"></p>
 
+                    <div class="w-[100%] flex">
+                      <ng-container *ngFor="let count of getArrayForCount(message.linksCount);let i = index">
+                        <div class="mb-2 mt-2 mr-3" *ngIf="message['linkAnchorText-'+(i+1)]">
+                          <a class="text-sky-500 text-sm-12" target="_blank"
+                             [href]="message['link-'+(i+1)]">{{message['linkAnchorText-' + (i + 1)]}}</a>
+                        </div>
+                      </ng-container>
+                    </div>
+
+                    <div class="w-[100%]" *ngIf="message.tags">
+                      <div class="flex flex-row flex-wrap gap-1 pt-1 text-sm-12 text-gray-700">
+                        <ng-container *ngFor="let tag of getTags(message)">
+                          <p-chip class="mr-2" [label]="tag"></p-chip>
+                        </ng-container>
+                      </div>
+                    </div>
+
                     <div class="mt-2 flex justify-between items-center">
-                      <p class="text-gray-500 hover:underline flex cursor-pointer hover:text-sky-500 items-center gap-1" (click)="getComments(message)">
+                      <p class="text-gray-500 hover:underline flex cursor-pointer hover:text-sky-500 items-center gap-1"
+                         (click)="getComments(message)">
                         <i class="pi pi-comment"></i>
                         <span>Comment</span>
                       </p>
 
-                      <p class="text-gray-500 hover:underline cursor-pointer hover:text-sky-500" *ngIf="message.numberComments"
+                      <p class="text-gray-500 hover:underline cursor-pointer hover:text-sky-500"
+                         *ngIf="message.numberComments"
                          (click)="getComments(message, true)">
                         {{message.numberComments}} comments
                       </p>
@@ -114,8 +142,8 @@
 
                 <div class="p-2 lg:mr-[150px] md:mr-[100px] sm:mr-[20px] mr-[20px]"
                      *ngIf="commentsForMessages[message.id]">
-                  <app-hub-form *ngIf="false" class="" [formId]="'comments'" [buttonLabel]="'Reply'"
-                                [existingDetails]="{'collab': pageId, 'msgId': message.id}"
+                  <app-hub-form class="" [formId]="'comments'" [buttonLabel]="'Reply'"
+                                [existingDetails]="{'hubpage': pageId, 'msgId': message.id}"
                                 [updateWithHiddenOrDisabledFields]="true"
                                 [successMessage]="'Your message has been submitted'"
                                 [doAutoFocus]="doAutoFocus"
@@ -125,7 +153,8 @@
                   <!-- <p-virtualScroller [value]="commentsForMessages[message.id]" scrollHeight="500px">
                      <ng-template pTemplate="item" let-comment>-->
                   <!--COMMENTS-->
-                  <div class="pr-5 overflow-auto" [ngClass]="{'max-h-[400px]': commentsForMessages[message.id]?.length}">
+                  <div class="pr-5 overflow-auto"
+                       [ngClass]="{'max-h-[400px]': commentsForMessages[message.id]?.length}">
                     <div *ngFor="let comment of commentsForMessages[message.id]">
                       <div class="flex flex-col ml-8 mr-8 mt-4 mb-4 p-4 mb-2 default-border">
                         <div class="flex justify-between items-center">
@@ -136,7 +165,8 @@
                           </div>
 
                           <div *ngIf="comment.canUpdateOrDelete">
-                            <p-tieredMenu #commentMenu [model]="actionItems" [popup]="true" appendTo="body"></p-tieredMenu>
+                            <p-tieredMenu #commentMenu [model]="actionItems" [popup]="true"
+                                          appendTo="body"></p-tieredMenu>
                             <i class="pi pi-ellipsis-h cursor-pointer" style="font-size: 1.2rem;"
                                (click)="showContext(commentMenu, $event, comment, true)"></i>
                           </div>
@@ -171,7 +201,7 @@
 <p-dialog [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}"
           *ngIf="currentMessage && showEditDialog" [header]="'Edit' + ' ' + currentMessage.title"
           [(visible)]="showEditDialog" appendTo="body">
-  <app-hub-form *ngIf="false" class="p-4" [formId]="'chat'" [buttonLabel]="'Update'"
+  <app-hub-form class="p-4" [formId]="'chat'" [buttonLabel]="'Update'"
                 [existingDetails]="{'collab': pageId, title: currentMessage.title,
                 message: currentMessage.description, id: currentMessage.id}"
                 [updateWithHiddenOrDisabledFields]="true"
@@ -183,7 +213,7 @@
 <p-dialog [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}"
           *ngIf="currentComment && showEditCommentDialog" [header]="'Edit Your Reply'"
           [(visible)]="showEditCommentDialog" appendTo="body">
-  <app-hub-form *ngIf="false" class="" [formId]="'comments'" [buttonLabel]="'Update'"
+  <app-hub-form class="" [formId]="'comments'" [buttonLabel]="'Update'"
                 [existingDetails]="{'collab': pageId, 'msgId': currentComment.parentId, id: currentComment.id,
                 message: currentComment.description}"
                 [updateWithHiddenOrDisabledFields]="true"

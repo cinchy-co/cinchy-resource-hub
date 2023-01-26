@@ -31,7 +31,8 @@
     <hr>
     <div class="p-2 pl-4 pt-4 pr-4 basis-[40%] flex flex-row gap-5 items-start justify-start">
       <div class="cursor-pointer" *ngFor="let media of socialMediaDetails" (click)="socialMediaClicked(media)">
-        <i class="pi" [ngClass]="media.socialIcon" style="font-size: 1.5rem"></i>
+       <!-- <i class="pi" [ngClass]="media.socialIcon" style="font-size: 1.5rem"></i>-->
+        <fa-icon style="font-size: 1.5rem" [icon]="getIcon(media.socialIcon)"></fa-icon>
       </div>
     </div>
   </div>

@@ -76,11 +76,12 @@ export class HubHomeComponent implements OnInit, OnDestroy {
     });
 
     this.userDetails = this.appStateService.userDetails;
-
     this.headerDetails = communityDetails.find(item => item.id === 'home') as ICommunityDetails;
+
     this.showFeatures = this.appStateService.showFeatures;
     this.socialMediaDetails = (await this.appApiService.getSocialMediaDetails().toPromise());
     this.footerDetails = this.appStateService.footerDetails;
+    this.setActionItems();
     this.getCollabMessages();
     this.changeDetectionRef.detectChanges();
   }
@@ -99,6 +100,7 @@ export class HubHomeComponent implements OnInit, OnDestroy {
   async getCollabMessages() {
     this.appApiService.getHubMessages(this.pageId).pipe(take(1)).subscribe(collabMessages => {
       this.collabMessages = collabMessages.reverse();
+      console.log('1111 collabMessages', this.collabMessages);
       this.appStateService.getUserDetailsSub().pipe(takeUntil(this.destroyed$))
         .subscribe(async (userDetails: IUser) => {
           this.userDetails = userDetails;
@@ -136,7 +138,9 @@ export class HubHomeComponent implements OnInit, OnDestroy {
       canUpdateOrDelete: true,
       username: this.userDetails.username,
       numberComments: 0,
-      parentId: isComment ? this.currentComment.parentId : ''
+      parentId: isComment ? this.currentComment.parentId : '',
+      linksCount: 0,
+      tags: ''
     }
   }
 
@@ -180,6 +184,7 @@ export class HubHomeComponent implements OnInit, OnDestroy {
     this.currentComment = isEdit ? {...this.currentComment, ...newComment} : this.currentComment;
     const currentCommentsTotal = this.currentCommentsParent.numberComments;
     this.currentCommentsParent.numberComments = isEdit ? currentCommentsTotal : currentCommentsTotal ? currentCommentsTotal + 1 : 1;
+    this.showEditCommentDialog = false;
   }
 
   editComment(comment: ICollabMessage) {
@@ -244,6 +249,9 @@ export class HubHomeComponent implements OnInit, OnDestroy {
     ];
   }
 
+  getTags(option: ICollabMessage): string[] {
+    return option.tags.split(', ');
+  }
 
   getArrayForCount(count: number) {
     return new Array(count);

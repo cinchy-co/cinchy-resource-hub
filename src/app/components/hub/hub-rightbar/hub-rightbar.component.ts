@@ -5,6 +5,8 @@ import {isPlatformBrowser} from "@angular/common";
 import {Router} from "@angular/router";
 import {AppStateService} from "../../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import {ICommunityDetails} from "../../../models/general-values.model";
 
 @Component({
   selector: 'app-hub-rightbar',
@@ -38,6 +40,10 @@ export class HubRightbarComponent implements OnInit, OnDestroy {
     } else {
       this.router.navigate([`${footer.footerRoute}`]);
     }
+  }
+
+  getIcon(icon: string, isCollapsed?: boolean): IconProp {
+    return icon.split(',') as IconProp;
   }
 
   socialMediaClicked(socialMedia: ISocialMedia) {

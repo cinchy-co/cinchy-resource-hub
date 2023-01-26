@@ -26,8 +26,8 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const url = this.windowRefService.nativeWindow.location.href;
     if (isPlatformBrowser(this.platformId)) {
+      const url = this.windowRefService.nativeWindow.location.href;
       if (!sessionStorage.getItem('current-url-hub')) {
         sessionStorage.setItem('current-url-hub', url);
       }
@@ -96,6 +96,8 @@ export class AppComponent implements OnInit {
       } else {
         route = currentUrl?.split(':3100')[1] || currentUrl?.split('/hub')[1] || route;
       }
+      console.log('111 ROUTe', route, currentUrl);
+      console.log('111 ROUTe', currentUrl?.split('/hub')[1]);
       const routeWithoutQueryParam = route.split('?')[0];
       const queryParams: any = {};
       if (route.split('?')[1]) {

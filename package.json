@@ -1,5 +1,5 @@
 {
-  "name": "marketing-hub",
+  "name": "hub",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,12 +7,12 @@
     "build": " ng build --base-href \"/dx/hub/\"\n",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build:production:ssr": "ng build --prod --configuration=production --base-href /privacyTools/ && ng run marketing-hub:server:production",
-    "build:staging:ssr": "ng build --prod --configuration=staging --base-href /privacyTools/ && ng run marketing-hub:server:staging",
-    "dev:ssr": "ng run marketing-hub:serve-ssr",
-    "serve:ssr": "node dist/marketing-hub/server/main.js",
-    "build:ssr": "ng build && ng run marketing-hub:server",
-    "prerender": "ng run marketing-hub:prerender"
+    "build:production:ssr": "ng build --prod --configuration=production --base-href /privacyTools/ && ng run hub:server:production",
+    "build:staging:ssr": "ng build --prod --configuration=staging --base-href /privacyTools/ && ng run hub:server:staging",
+    "dev:ssr": "ng run hub:serve-ssr",
+    "serve:ssr": "node dist/hub/server/main.js",
+    "build:ssr": "ng build && ng run hub:server",
+    "prerender": "ng run hub:prerender"
   },
   "private": true,
   "dependencies": {

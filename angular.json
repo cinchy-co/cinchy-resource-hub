@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "marketing-hub": {
+    "hub": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -23,7 +23,7 @@
             "customWebpackConfig": {
               "path": "./custom-webpack.config.js"
             },
-            "outputPath": "dist/marketing-hub/browser",
+            "outputPath": "dist/hub/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -83,10 +83,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "marketing-hub:build:production"
+              "browserTarget": "hub:build:production"
             },
             "development": {
-              "browserTarget": "marketing-hub:build:development"
+              "browserTarget": "hub:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -94,7 +94,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "marketing-hub:build"
+            "browserTarget": "hub:build"
           }
         },
         "test": {
@@ -126,7 +126,7 @@
         "server": {
           "builder": "@angular-devkit/build-angular:server",
           "options": {
-            "outputPath": "dist/marketing-hub/server",
+            "outputPath": "dist/hub/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json",
             "inlineStyleLanguage": "scss"
@@ -153,12 +153,12 @@
           "builder": "@nguniversal/builders:ssr-dev-server",
           "configurations": {
             "development": {
-              "browserTarget": "marketing-hub:build:development",
-              "serverTarget": "marketing-hub:server:development"
+              "browserTarget": "hub:build:development",
+              "serverTarget": "hub:server:development"
             },
             "production": {
-              "browserTarget": "marketing-hub:build:production",
-              "serverTarget": "marketing-hub:server:production"
+              "browserTarget": "hub:build:production",
+              "serverTarget": "hub:server:production"
             }
           },
           "defaultConfiguration": "development"
@@ -172,12 +172,12 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "marketing-hub:build:production",
-              "serverTarget": "marketing-hub:server:production"
+              "browserTarget": "hub:build:production",
+              "serverTarget": "hub:server:production"
             },
             "development": {
-              "browserTarget": "marketing-hub:build:development",
-              "serverTarget": "marketing-hub:server:development"
+              "browserTarget": "hub:build:development",
+              "serverTarget": "hub:server:development"
             }
           },
           "defaultConfiguration": "production"
@@ -185,5 +185,5 @@
       }
     }
   },
-  "defaultProject": "marketing-hub"
+  "defaultProject": "hub"
 }
