@@ -100,7 +100,6 @@ export class HubHomeComponent implements OnInit, OnDestroy {
   async getCollabMessages() {
     this.appApiService.getHubMessages(this.pageId).pipe(take(1)).subscribe(collabMessages => {
       this.collabMessages = collabMessages.reverse();
-      console.log('1111 collabMessages', this.collabMessages);
       this.appStateService.getUserDetailsSub().pipe(takeUntil(this.destroyed$))
         .subscribe(async (userDetails: IUser) => {
           this.userDetails = userDetails;

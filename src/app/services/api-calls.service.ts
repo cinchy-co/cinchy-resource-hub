@@ -43,7 +43,7 @@ export class ApiCallsService {
   }
 
   deleteMessage(messageId: string) {
-    const url = `/API/Node%20Zero%20Website/Delete%20Message?%40msgId=${messageId}`;
+    const url = `/API/Zero-Integration%20App%20Factory/Delete%20Message?%40msgId=${messageId}`;
     return this.getResponse(url);
   }
 
@@ -104,6 +104,15 @@ export class ApiCallsService {
   }
 
   getFooterDetails(): Observable<any> {
+   /* const url2= 'https://cinchy.net/api/files/v1.0/Zero-Integration%20App%20Factory/Hub%20Dashboards/5/File?fileId=5122';
+    const headers = new HttpHeaders({
+      'Content-Type': 'image/png',
+      'Accept': 'image/png',
+      'Authorization': `Bearer ${sessionStorage.getItem('access_token')}`
+    })
+    this.http.get(url2, {headers: headers, responseType: 'blob'}).subscribe(val => {
+      console.log('111 IMAGE PHOTO, val', val);
+    })*/
     const url = `/API/Zero-Integration%20App%20Factory/Get%20Hub%20Footer%20Details`;
     if (this.cachedFooterDetails) {
       return of(this.cachedFooterDetails);

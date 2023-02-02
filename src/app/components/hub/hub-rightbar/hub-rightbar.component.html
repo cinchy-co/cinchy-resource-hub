@@ -37,8 +37,8 @@
     </div>
   </div>
 
-  <div class="right-bar mt-5 p-4 max-h-[400px] overflow-auto">
-    <p class="text-lg mb-4 font-semibold cursor-pointer text-sky-500">News</p>
+  <div class="right-bar mt-5 p-4 max-h-[400px] overflow-auto" *ngIf="topNews">
+    <p class="text-lg mb-4 font-semibold text-sky-500">{{topNews[0].header}}</p>
     <div class="mb-2" *ngFor="let news of topNews">
       <div class="flex items-baseline cursor-pointer" (click)="goToNews(news)">
         <i class="pi pi-circle-fill mr-2" style="font-size: 0.4rem"></i>

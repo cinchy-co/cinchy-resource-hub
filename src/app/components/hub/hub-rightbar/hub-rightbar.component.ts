@@ -25,6 +25,7 @@ export class HubRightbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log('111 NEWS', this.topNews)
     this.appStateService.getUserDetailsSub().pipe(takeUntil(this.destroyed$))
       .subscribe(async (userDetails: IUser) => {
         this.userDetails = userDetails;

@@ -129,7 +129,8 @@ export interface ITopNews {
   date: string;
   id: string;
   link: string;
-  source: string
+  source: string;
+  header: string;
 }
 
 export interface IOptionLead {
