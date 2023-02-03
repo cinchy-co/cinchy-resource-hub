@@ -4,6 +4,7 @@ import {forkJoin} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import { CinchyConfig } from '@cinchy-co/angular-sdk';
 import {IEnv} from "./models/common.model";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root',
@@ -17,25 +18,6 @@ export class ConfigService {
    // this.setRowAndFormId();
   }
 
-  setRowAndFormId() {
-    let formId = this.getQueryStringValue('formId', window.location.search);
-    let rowId = this.getQueryStringValue('rowId', window.location.search);
-    if (!rowId) {
-      formId = this.getQueryStringValue('formId', document.referrer);
-      rowId = this.getQueryStringValue('rowId', document.referrer);
-    }
-    formId && sessionStorage.setItem('formId', formId);
-
-    if(!sessionStorage.getItem('rowId') || rowId){
-      rowId && rowId != "null" ? sessionStorage.setItem('rowId', rowId) : sessionStorage.setItem('rowId', '');
-    }
-    console.log('Row id config', rowId, 'session',  sessionStorage.getItem('rowId'));
-  }
-
-  getQueryStringValue(key: string, url: string) {
-    return decodeURIComponent(url.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
-  }
-
   get envConfig(): CinchyConfig {
     return this.enviornmentConfig;
   }
@@ -45,7 +27,8 @@ export class ConfigService {
   }
 
   getEnvUrl() {
-    const url = `${this.baseUrl}assets/config.json`;
+    const whichConfig = environment.production ? 'config_prod.json' : 'config_local.json';
+    const url = `${this.baseUrl}assets/${whichConfig}`;
     /*    const headers = new HttpHeaders({
           'Cache-Control': 'no-cache',
           'Pragma': 'no-cache',

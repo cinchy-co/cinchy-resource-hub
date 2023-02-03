@@ -1,8 +1,9 @@
 export interface IFeatures {
   number: number;
   label: string;
-  link: string;
-  linkTitle: string;
+  linksCount: number;
+  linkTitle?: string;
+  [key: string | number]: any;
 }
 
 export interface ICollabMessage {
