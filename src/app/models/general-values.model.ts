@@ -46,5 +46,6 @@ export interface ICommunityDetails {
   featuredDescription?: string;
   filterHeader?: string;
   filterDescription?: string;
+  copyright: string;
   [key: string|number]: any;
 }

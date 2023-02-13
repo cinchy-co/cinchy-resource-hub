@@ -170,8 +170,11 @@
                        [ngClass]="{'max-h-[400px]': commentsForMessages[message.id]?.length}">
                     <div *ngFor="let comment of commentsForMessages[message.id]">
                       <div class="flex flex-col ml-8 mr-8 mt-4 mb-4 p-4 mb-2 default-border">
-                        <div class="flex justify-between items-center">
-                          <div class="flex gap-2 mb-2">
+                        <div class="flex gap-2 items-center mb-2">
+                          <img class="rounded-[50%]" style="width: 35px; height: 35px"
+                               [src]="'data:image/png;base64,' + message.photo"
+                               alt="photo">
+                          <div class="flex gap-2">
                             <p class="text-[12px] text-gray-700" [innerHTML]="comment.creatorName"></p>
                             <p class="text-[12px] text-gray-500"
                                [innerHTML]="comment.modifiedDate ? (comment.modifiedDate | date) : (comment.date | date)"></p>
@@ -206,7 +209,8 @@
     <app-hub-rightbar class="hidden lg:block"
                       [userDetails]="userDetails" [footerDetails]="footerDetails"
                       [socialMediaDetails]="socialMediaDetails"
-                      [topNews]="hubTopNews">
+                      [topNews]="hubTopNews"
+                      [pageDetails]="homeDetails">
     </app-hub-rightbar>
   </div>
 </div>

@@ -18,6 +18,7 @@ export class HubRightbarComponent implements OnInit, OnDestroy {
   @Input() footerDetails: IFooter[];
   @Input() socialMediaDetails: ISocialMedia[];
   @Input() topNews: ITopNews[];
+  @Input() pageDetails: ICommunityDetails;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private windowRef: WindowRefService, private appStateService: AppStateService,

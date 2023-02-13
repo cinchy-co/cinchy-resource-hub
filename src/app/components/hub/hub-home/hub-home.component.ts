@@ -67,7 +67,6 @@ export class HubHomeComponent implements OnInit, OnDestroy {
     this.homeDetails = communityDetails.find(item => item.id === 'updates') as ICommunityDetails;
     this.appApiService.getHubFeatures().pipe(take(1)).subscribe(val => {
       this.hubFeatures = val;
-      console.log('1111 HUB FEATURES', this.hubFeatures);
       this.changeDetectionRef.markForCheck();
     });
 
